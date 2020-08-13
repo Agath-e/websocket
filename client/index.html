@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Chat App</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   <main id="app">
@@ -28,35 +28,18 @@
 
       <!-- messages list -->
       <ul class="messages-section__list" id="messages-list">
-        <li class="message">
-          <h3 class="message__author">John Doe</h3>
-          <div class="message__content">
-            
-          </div>
-        </li>
-        <li class="message message--self">
-            <h3 class="message__author">You</h3>
-            <div class="message__content">
-              
-            </div>
-          </li>
-        <li class="message message--self message--received">
-          <h3 class="message__author">You</h3>
-          <div class="message__content">
-           
-          </div>
-        </li>
+        
       </ul>
 
       <!-- messages form -->
       <form id="add-messages-form">
-        <input class="text-input" type="text" placeholder="Type your message here" id="message-content">
+        <input class="text-input" type="text" placeholder="Type your message here" id="message-content" autocomplete="off">
         <button class="btn" type="submit">Send</button>
       </form>
 
     </section>
 
   </main>
-  <script src="app.js" type="module"></script>
+  <script src="./app.js" type="module"></script>
 </body>
 </html>
