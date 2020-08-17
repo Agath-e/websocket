@@ -20,28 +20,39 @@ const io = socket(server);
 
 io.on('connection', (socket) => {
     console.log('New client! Its id – ' + socket.id);
+
+    socket.on('login', (payload) => {
+        users.push({
+          id: socket.id,
+          name: payload.name,
+        });
+        socket.broadcast.emit('message', {
+          author: 'Chat Bot',
+          content: `${payload.name} has joined the conversation!`,
+        });
+      });
     
-    socket.on('join', (user) => { console.log('new User has joined the conversation ' + socket.id)
-        users.push(user);
-        socket.broadcast.emit('users', user);
-    });
     
     socket.on('message', (message) => { console.log('Oh, I\'ve got something from ' + socket.id);
         messages.push(message);
         socket.broadcast.emit('message', message);
     });
 
-    socket.on('disconnect', () => { console.log('Oh, socket ' + socket.id + ' has left') 
-        users = users.filter(user => user.id !== socket.id);
+    socket.on('disconnect', (payload) => { console.log('Oh, socket ' + socket.id + ' has left') 
         const leavingUser = users.find(user => user.id === socket.id);
-        console.log(leavingUser, users);
-        socket.broadcast.emit('removeUser', leavingUser);
+        users = users.filter(user => user.id !== socket.id);
         
+        socket.broadcast.emit('removeUser', {
+        author: 'Chat Bot',
+        content: `${leavingUser.name} has left the conversation!`,
+      });
+        });
+        console.log('I\'ve added a listener on message event \n');
     });
     
 
-    console.log('I\'ve added a listener on message event \n');
+   
 
     
-  });
+
 

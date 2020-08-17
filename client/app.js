@@ -7,8 +7,8 @@ const messageContentInput = document.getElementById('message-content');
 const socket = io();
 
 socket.on('message', ({ author, content }) => addMessage(author, content))
-socket.on('newUser', userName => addMessage('Chat Bot', userName + ' has joined the conversation!')),
-socket.on('removeUser', userName => addMessage('Chat Bot', userName + ' has left the conversation... :( '));
+socket.on('newUser', userName => addMessage('Chat Bot', userName + ' has joined the conversation!'))
+socket.on('removeUser', ({ author, content }) => addMessage(author, content))
 
 let userName = '';
 
@@ -20,14 +20,14 @@ loginForm.addEventListener('submit', (event) => {
 const login = event => {
     event.preventDefault();
 
-    if (userNameInput.value === '') {
+    if (!userNameInput.value) {
         alert('You have fill the field!')
     } else {
         userName = userNameInput.value;
+        socket.emit('login', { name: userName });
         loginForm.classList.remove('show');
         messagesSection.classList.add('show');
     }
-    socket.emit('join', userName);
 }
 
 addMessageForm.addEventListener('submit', (event) => {
@@ -61,5 +61,6 @@ function addMessage(author, content) {
       </div>
     `;
     messagesList.appendChild(message);
-  }
+}
+
 
